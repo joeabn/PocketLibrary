@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:pocket_library/screens/reading_screen.dart';
 
 import '../constants.dart';
 import '../widgets/book_rating.dart';
@@ -65,7 +66,16 @@ class HomeScreen extends StatelessWidget {
                                 },
                               ),
                             );
-                          }, pressRead: () { },
+                          }, pressRead: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ReadingScreen();
+                              },
+                            ),
+                          );
+                        },
                         ),
                         BookCard(
                           image: "assets/images/book-2.png",

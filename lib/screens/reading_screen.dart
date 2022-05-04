@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
+import '../Database/book.dart';
 import '../widgets/search_toolbar.dart';
 
 class ReadingScreen extends StatefulWidget {
+  final Book book;
+
+  const ReadingScreen({Key? key, required this.book}) : super(key: key);
   @override
   _ReadingState createState() => _ReadingState();
 }
@@ -24,6 +30,8 @@ class _ReadingState extends State<ReadingScreen> {
 
   @override
   void initState() {
+    print("Reading... : " + widget.book.title);
+    print("From... : " + widget.book.path);
     _pdfViewerController = PdfViewerController();
     _showScrollHead = true;
     _showToolbar = false;
@@ -32,6 +40,7 @@ class _ReadingState extends State<ReadingScreen> {
 
   void _showContextMenu(
       BuildContext context, PdfTextSelectionChangedDetails details) {
+
     final OverlayState _overlayState = Overlay.of(context)!;
     _overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -108,6 +117,7 @@ class _ReadingState extends State<ReadingScreen> {
                     backgroundColor: const Color(0xFFFAFAFA),
                   )
                 : AppBar(
+              title: Text(widget.book.title),
                     actions: <Widget>[
                       IconButton(
                         icon: const Icon(
@@ -118,9 +128,6 @@ class _ReadingState extends State<ReadingScreen> {
                             _showScrollHead = false;
                             _showToolbar = true;
                             _ensureHistoryEntry();
-                            print(_showScrollHead.toString() +
-                                " " +
-                                _showToolbar.toString());
                           });
                         },
                       ),
@@ -139,12 +146,12 @@ class _ReadingState extends State<ReadingScreen> {
                             Icons.arrow_drop_down_circle,
                           ))
                     ],
-
                   ),
             body: Stack(
               children: [
-                SfPdfViewer.network(
-                    'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
+                SfPdfViewer.file(
+                    File(
+                        widget.book.path),
                     onTextSelectionChanged:
                         (PdfTextSelectionChangedDetails details) {
                   if (details.selectedText == null && _overlayEntry != null) {
@@ -155,6 +162,8 @@ class _ReadingState extends State<ReadingScreen> {
                     _showContextMenu(context, details);
                   }
                 },
+                    pageLayoutMode: PdfPageLayoutMode.continuous,
+                    scrollDirection: PdfScrollDirection.horizontal,
                     canShowScrollHead: _showScrollHead,
                     controller: _pdfViewerController,
                     key: _pdfViewerStateKey),

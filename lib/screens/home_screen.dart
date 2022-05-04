@@ -1,8 +1,10 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:pocket_library/screens/add_book_screen.dart';
 import 'package:pocket_library/screens/reading_screen.dart';
 
+import '../Database/book.dart';
 import '../constants.dart';
 import '../widgets/book_rating.dart';
 import '../widgets/book_card.dart';
@@ -71,7 +73,12 @@ class HomeScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return ReadingScreen();
+                                return const ReadingScreen(book: Book(
+                                    title: "Testing Book",
+                                    author: "Joe",
+                                    genre: "Tragedy",
+                                    bookmark: 3,
+                                    path: "/data/user/0/Joe_abn.com.pocket_library/cache/file_picker/La Bourgogne CNE.pdf"));
                               },
                             ),
                           );
@@ -205,8 +212,23 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
+
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const AddBookScreen();
+              },
+            ),
+          );
+        },
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.navigation),
       ),
     );
   }

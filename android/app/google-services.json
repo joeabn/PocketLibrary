@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "710322801342",
+    "project_id": "pocketlibrary-3872c",
+    "storage_bucket": "pocketlibrary-3872c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710322801342:android:41f6b0486691ccc235acef",
+        "android_client_info": {
+          "package_name": "Joe_abn.com.pocket_library"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710322801342-eor34jp8uoohvurjrgfqer3pue1kolkn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpG2I1K0M28M_uroMWdxmFyVO5DS-h9hE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710322801342-eor34jp8uoohvurjrgfqer3pue1kolkn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

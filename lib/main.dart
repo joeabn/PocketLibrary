@@ -1,10 +1,13 @@
 
 import 'package:flutter/material.dart';
-import 'package:pocket_library/screens/home_screen.dart';
+import 'package:pocket_library/screens/Authentication/login_screen.dart';
 import 'package:pocket_library/widgets/rounded_button.dart';
 
 import 'constants.dart';
-void main() => runApp(MyApp());
+
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -63,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return HomeScreen();
+                        return LoginScreen();
                       },
                     ),
                   );

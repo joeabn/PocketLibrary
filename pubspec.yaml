@@ -40,6 +40,8 @@ dependencies:
   open_file: ^3.2.1
   http: ^0.13.4
   path_provider: ^2.0.9
+  firebase_core: ^1.16.0
+  firebase_auth: ^3.3.17
 
 dev_dependencies:
   flutter_test:

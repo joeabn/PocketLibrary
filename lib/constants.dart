@@ -8,7 +8,5 @@ const kLightColor = Color(0xFFFAFAFA);
 
 final kShadowColor = Color(0xFFD3D3D3).withOpacity(.84);
 
-
-
-
 const KBooksDbTable = "books";
+const KUsersDbTable = "users";

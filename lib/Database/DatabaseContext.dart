@@ -1,18 +1,14 @@
 import 'dart:async';
 
 import 'package:class_to_map/class_to_map.dart';
+import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter/widgets.dart';
 
 import '../constants.dart';
 import 'book.dart';
 
-
-
-
 class DatabaseHandler {
-
   late final database;
 
   DatabaseHandler() {
@@ -27,7 +23,8 @@ class DatabaseHandler {
       onCreate: (db, version) {
         // Run the CREATE TABLE statement on the database.
         return db.execute(
-          'CREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,author TEXT,genre TEXT,path TEXT, bookmark INTEGER)',
+          'CREATE TABLE $KBooksDbTable(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,externalID TEXT)\n'
+          'CREATE TABLE $KUsersDbTable(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,author TEXT,genre TEXT,path TEXT, bookmark INTEGER)',
         );
       },
       version: 1,
@@ -92,4 +89,3 @@ class DatabaseHandler {
     );
   }
 }
-

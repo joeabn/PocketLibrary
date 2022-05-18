@@ -6,8 +6,8 @@ import 'package:pocket_library/screens/reading_screen.dart';
 
 import '../Database/book.dart';
 import '../constants.dart';
-import '../widgets/book_rating.dart';
 import '../widgets/book_card.dart';
+import '../widgets/book_rating.dart';
 import '../widgets/two_side_rounded_button.dart';
 import 'details_screen.dart';
 
@@ -73,13 +73,15 @@ class HomeScreen extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return const ReadingScreen(book: Book(
-                                    title: "Testing Book",
-                                    author: "Joe",
-                                    genre: "Tragedy",
-                                    bookmark: 3,
-                                    path: "/data/user/0/Joe_abn.com.pocket_library/cache/file_picker/La Bourgogne CNE.pdf"));
-                              },
+                                return ReadingScreen(
+                                      book: Book(
+                                          title: "Testing Book",
+                                          author: "Joe",
+                                          genre: "Tragedy",
+                                          bookmark: 3,
+                                          path:
+                                              "/data/user/0/Joe_abn.com.pocket_library/cache/file_picker/La Bourgogne CNE.pdf"));
+                                },
                             ),
                           );
                         },

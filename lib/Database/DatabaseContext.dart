@@ -1,20 +1,32 @@
 import 'dart:async';
 
-import 'package:class_to_map/class_to_map.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter/widgets.dart';
 
 import '../constants.dart';
 import 'book.dart';
 
-class DatabaseHandler {
-  late final database;
 
-  DatabaseHandler() {
+
+
+class DatabaseHandler {
+  DatabaseHandler._();
+
+  static final DatabaseHandler _singleton = DatabaseHandler._();
+
+  static Database? _database;
+
+  factory DatabaseHandler() {
     WidgetsFlutterBinding.ensureInitialized();
-    database ??= _initializeDatabase();
+    return _singleton;
   }
+
+  Future<Database> get database async =>
+      _database ??= await _initializeDatabase();
 
   Future<Database> _initializeDatabase() async {
     var databasePath = await getDatabasesPath();
@@ -56,7 +68,7 @@ class DatabaseHandler {
     final List<Map<String, dynamic>> maps = await db.query(KBooksDbTable);
 
     return List.generate(maps.length, (i) {
-      return maps[i].toClass<Book>();
+      return Book.fromMap(maps[i]);
     });
   }
 

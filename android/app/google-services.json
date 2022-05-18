@@ -29,6 +29,13 @@
             {
               "client_id": "710322801342-eor34jp8uoohvurjrgfqer3pue1kolkn.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "710322801342-6siqufpm9d5tfeq5ff1bouterelu7kjv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "Joeabn.com.pocketLibrary"
+              }
             }
           ]
         }

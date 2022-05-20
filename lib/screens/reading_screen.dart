@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -149,10 +147,7 @@ class _ReadingState extends State<ReadingScreen> {
                   ),
             body: Stack(
               children: [
-                SfPdfViewer.file(
-                    File(
-                        widget.book.path),
-                    onTextSelectionChanged:
+                SfPdfViewer.network(widget.book.path, onTextSelectionChanged:
                         (PdfTextSelectionChangedDetails details) {
                   if (details.selectedText == null && _overlayEntry != null) {
                     _overlayEntry!.remove();

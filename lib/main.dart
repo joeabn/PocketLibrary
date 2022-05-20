@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       home: WelcomeScreen(),
+      // home: StorageExampleApp(),
     );
   }
 }

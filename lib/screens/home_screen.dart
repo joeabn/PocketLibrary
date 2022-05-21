@@ -1,9 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:pocket_library/screens/add_book_screen.dart';
 import 'package:pocket_library/screens/reading_screen.dart';
 
+import '../Database/DatabaseContext.dart';
 import '../Database/book.dart';
 import '../constants.dart';
 import '../widgets/book_card.dart';
@@ -11,9 +10,27 @@ import '../widgets/book_rating.dart';
 import '../widgets/two_side_rounded_button.dart';
 import 'details_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreen createState() => _HomeScreen();
+}
+
+class _HomeScreen extends State<HomeScreen> {
+  List<Book> books = [new Book(title: "title", path: "path")];
+
+  Future<void> fetchBooks() async {
+    final DatabaseHandler _db = DatabaseHandler();
+    var dbbooks = await _db.getBooks();
+    setState(() {
+      books = dbbooks;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    fetchBooks();
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
@@ -68,12 +85,13 @@ class HomeScreen extends StatelessWidget {
                                 },
                               ),
                             );
-                          }, pressRead: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ReadingScreen(
+                          },
+                          pressRead: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return ReadingScreen(
                                       book: Book(
                                           title: "Testing Book",
                                           author: "Joe",
@@ -82,16 +100,16 @@ class HomeScreen extends StatelessWidget {
                                           path:
                                               "/data/user/0/Joe_abn.com.pocket_library/cache/file_picker/La Bourgogne CNE.pdf"));
                                 },
-                            ),
-                          );
-                        },
+                              ),
+                            );
+                          },
                         ),
                         BookCard(
                           image: "assets/images/book-2.png",
                           title: "Top Ten Business Hacks",
                           author: "Herman Joel",
                           rating: 4.8,
-                          pressRead: () {  },
+                          pressRead: () {},
                         ),
                         const SizedBox(width: 30),
                       ],
@@ -149,8 +167,8 @@ class HomeScreen extends StatelessWidget {
                               children: <Widget>[
                                 Expanded(
                                   child: Padding(
-                                    padding:
-                                        const EdgeInsets.only(left: 30, right: 20),
+                                    padding: const EdgeInsets.only(
+                                        left: 30, right: 20),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
@@ -174,7 +192,7 @@ class HomeScreen extends StatelessWidget {
                                               ),
                                               Align(
                                                 alignment:
-                                                    Alignment.bottomRight,
+                                                Alignment.bottomRight,
                                                 child: Text(
                                                   "Chapter 7 of 10",
                                                   style: TextStyle(
@@ -214,7 +232,6 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-
           ],
         ),
       ),

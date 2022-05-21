@@ -12,15 +12,15 @@ class BookCard extends StatelessWidget {
   final Function()? pressDetails;
   final Function() pressRead;
 
-  const BookCard({
-    Key? key,
-    required this.image,
-    required this.title,
-    this.author,
-    this.rating =0,
-    this.pressDetails,
-    required this.pressRead
-  }) : super(key: key);
+  const BookCard(
+      {Key? key,
+      required this.image,
+      required this.title,
+      this.author,
+      this.rating = 0,
+      this.pressDetails,
+      required this.pressRead})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +49,10 @@ class BookCard extends StatelessWidget {
               ),
             ),
           ),
-          Image.asset(
+          Image.network(
             image,
             width: 150,
+            height: 150,
           ),
           Positioned(
             top: 35,

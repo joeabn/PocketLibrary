@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
+import 'package:pocket_library/services/cloud_storage_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../constants.dart';
@@ -35,7 +36,7 @@ class DatabaseHandler {
         await db.execute(
             'CREATE TABLE $KUsersDbTable(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,externalID TEXT)');
         await db.execute(
-          'CREATE TABLE $KBooksDbTable(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,author TEXT,genre TEXT,path TEXT, bookmark INTEGER, isCurrent INTEGER, isbn TEXT, imagePath TEXT',
+          'CREATE TABLE $KBooksDbTable(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,author TEXT,genre TEXT,path TEXT, bookmark INTEGER, isCurrent INTEGER, isbn TEXT, imagePath TEXT)',
         );
       },
       version: 1,
@@ -71,6 +72,19 @@ class DatabaseHandler {
     });
   }
 
+  Future<Book?> getBook(int id) async {
+    // Get a reference to the database.
+    final db = await database;
+
+    // Query the table for all The Books.
+    final List<Map<String, dynamic>> maps =
+        await db.query(KBooksDbTable, where: 'id = ?',
+            // Pass the Dog's id as a whereArg to prevent SQL injection.
+            whereArgs: [id]);
+
+    return Book.fromMap(maps.first);
+  }
+
   Future<void> updateBook(Book book) async {
     // Get a reference to the database.
     final db = await database;
@@ -89,14 +103,34 @@ class DatabaseHandler {
   Future<void> deleteBook(int id) async {
     // Get a reference to the database.
     final db = await database;
+    Book? bookToDelete = await getBook(id);
 
+    if (bookToDelete == null) {
+      return;
+    }
     // Remove the Dog from the database.
-    await db.delete(
-      KBooksDbTable,
-      // Use a `where` clause to delete a specific dog.
-      where: 'id = ?',
-      // Pass the Dog's id as a whereArg to prevent SQL injection.
-      whereArgs: [id],
-    );
+    try {
+      await db.delete(
+        KBooksDbTable,
+        // Use a `where` clause to delete a specific dog.
+        where: 'id = ?',
+        // Pass the Dog's id as a whereArg to prevent SQL injection.
+        whereArgs: [id],
+      );
+    } catch (e) {
+      await CloudStorageService.deleteFile(bookToDelete.path);
+    }
+  }
+
+  addColumn() async {
+    final db = await database;
+
+    try {
+      await db.execute('ALTER TABLE $KBooksDbTable ADD COLUMN imagePath TEXT');
+      print("Success");
+    } catch (e) {
+      print("failed");
+      print(e);
+    }
   }
 }

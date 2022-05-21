@@ -1,3 +1,5 @@
+import 'package:checkdigit/checkdigit.dart';
+
 class Validator {
   static String? required({required String? name}) {
     if (name == null) {
@@ -16,26 +18,15 @@ class Validator {
     if (isbn == null || isbn.isEmpty) {
       return null;
     }
+    var len = isbn.length;
 
-    if (isbn.length != 10) {
-      return errorMessage;
+    if (len == 10 && isbn10.validate(isbn)) {
+      return null;
     }
-
-    try {
-      int.parse(isbn);
-    } catch (e) {
-      return errorMessage;
+    if (len == 13 && isbn13.validate(isbn)) {
+      return null;
     }
-    var sum = 0;
-    for (int i = 10; i != 0; i--) {
-      sum += (int.parse(isbn[i - 1]) * i);
-    }
-
-    if (sum % 11 != 0) {
-      return errorMessage;
-    }
-
-    return null;
+    return errorMessage;
   }
 
   static String? validateEmail({required String? email}) {

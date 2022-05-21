@@ -42,7 +42,7 @@ class Book {
         genre: map['genre'],
         bookmark: map['bookmark'],
         path: map['path'],
-        isCurrent: map['isCurrent'],
+        isCurrent: map['isCurrent'] == 1 ? true : false,
         isbn: map['isbn'],
         imagePath: map['imagePath'],
         id: map['id']);

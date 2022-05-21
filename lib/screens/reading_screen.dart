@@ -158,7 +158,7 @@ class _ReadingState extends State<ReadingScreen> {
                   }
                 },
                     pageLayoutMode: PdfPageLayoutMode.continuous,
-                    scrollDirection: PdfScrollDirection.horizontal,
+                    scrollDirection: PdfScrollDirection.vertical,
                     canShowScrollHead: _showScrollHead,
                     controller: _pdfViewerController,
                     key: _pdfViewerStateKey),

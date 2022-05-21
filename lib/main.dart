@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
           displayColor: kBlackColor,
         ),
       ),
+      // home: SearchScreen(),
       home: WelcomeScreen(),
-      // home: StorageExampleApp(),
     );
   }
 }

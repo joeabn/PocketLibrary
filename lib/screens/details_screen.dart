@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_library/Database/book.dart';
+import 'package:pocket_library/screens/home_screen.dart';
 
+import '../Database/DatabaseContext.dart';
 import '../constants.dart';
+import '../services/confirmation_dialog.dart';
 import '../widgets/book_rating.dart';
 import '../widgets/rounded_button.dart';
 
 class DetailsScreen extends StatelessWidget {
+  final Book book;
+
+  const DetailsScreen({Key? key, required this.book}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -17,21 +25,23 @@ class DetailsScreen extends StatelessWidget {
               alignment: Alignment.topCenter,
               children: <Widget>[
                 Container(
-                  alignment: Alignment.topCenter,
-                  padding: EdgeInsets.only(top: size.height * .12, left: size.width * .1, right: size.width * .02),
-                  height: size.height * .48,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/images/bg.png"),
-                      fit: BoxFit.fitWidth,
+                    alignment: Alignment.topCenter,
+                    padding: EdgeInsets.only(
+                        top: size.height * .12,
+                        left: size.width * .1,
+                        right: size.width * .02),
+                    height: size.height * .48,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/bg.png"),
+                        fit: BoxFit.fitWidth,
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(50),
+                        bottomRight: Radius.circular(50),
+                      ),
                     ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(50),
-                      bottomRight: Radius.circular(50),
-                    ),
-                  ),
-                  child: BookInfo(size: size,)
-                ),
+                    child: BookInfo(size: size, book: book)),
                 Padding(
                   padding: EdgeInsets.only(top: size.height * .48 - 20),
                   child: Column(
@@ -98,8 +108,8 @@ class DetailsScreen extends StatelessWidget {
                         left: 0,
                         right: 0,
                         child: Container(
-                          padding:
-                              const EdgeInsets.only(left: 24, top: 24, right: 150),
+                          padding: const EdgeInsets.only(
+                              left: 24, top: 24, right: 150),
                           height: 160,
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -115,7 +125,7 @@ class DetailsScreen extends StatelessWidget {
                                   children: [
                                     TextSpan(
                                       text:
-                                          "How To Win \nFriends & Influence \n",
+                                      "How To Win \nFriends & Influence \n",
                                       style: TextStyle(
                                         fontSize: 15,
                                       ),
@@ -137,7 +147,7 @@ class DetailsScreen extends StatelessWidget {
                                     child: RoundedButton(
                                       text: "Read",
                                       verticalPadding: 10,
-                                      press: () { },
+                                      press: () {},
                                     ),
                                   ),
                                 ],
@@ -175,6 +185,7 @@ class ChapterCard extends StatelessWidget {
   final String tag;
   final int chapterNumber;
   final Function() press;
+
   const ChapterCard({
     Key? key,
     required this.name,
@@ -237,12 +248,13 @@ class ChapterCard extends StatelessWidget {
 
 class BookInfo extends StatelessWidget {
   final Size size;
+  final Book book;
 
   const BookInfo({
     Key? key,
     required this.size,
+    required this.book,
   }) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -252,86 +264,131 @@ class BookInfo extends StatelessWidget {
         direction: Axis.horizontal,
         children: <Widget>[
           Expanded(
-            flex: 1,
-            child: Column(
-              children: <Widget>[
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Crushing &",
-                    style: Theme.of(context).textTheme.headline4?.copyWith(
-                      fontSize: 28
+              flex: 1,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Crushing &",
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          ?.copyWith(fontSize: 28),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: this.size.height * .005),
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.only(top: 0),
-                  child: Text(
-                    "Influence",
-                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
+                  Container(
+                    margin: EdgeInsets.only(top: this.size.height * .005),
+                    alignment: Alignment.centerLeft,
+                    padding: const EdgeInsets.only(top: 0),
+                    child: Text(
+                      "Influence",
+                      style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                   ),
-                ),
-                Row(
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: this.size.width * .3,
-                          padding: EdgeInsets.only(top: this.size.height * .02),
-                          child: const Text(
-                            "When the earth was flat andeveryone wanted to win the gameof the best and people and winning with an A game with all the things you have.",
-                            maxLines: 5,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: kLightBlackColor,
+                  Row(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            width: this.size.width * .3,
+                            padding:
+                                EdgeInsets.only(top: this.size.height * .02),
+                            child: const Text(
+                              "When the earth was flat andeveryone wanted to win the gameof the best and people and winning with an A game with all the things you have.",
+                              maxLines: 5,
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: kLightBlackColor,
+                              ),
                             ),
                           ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: this.size.height * .015),
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(30),
+                          Container(
+                            margin:
+                                EdgeInsets.only(top: this.size.height * .015),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: FlatButton(
+                              onPressed: () {},
+                              child: const Text(
+                                "Read",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          IconButton(
+                            icon: const Icon(
+                              Icons.favorite_border,
+                              size: 20,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {},
                           ),
-                          child: FlatButton(
-                            onPressed: () {},
-                            child: const Text("Read", style: TextStyle(fontWeight: FontWeight.bold),),
-                          ), 
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: <Widget>[
-                        IconButton(
-                            icon: const Icon(Icons.favorite_border, size: 20, color: Colors.grey,),
-                            onPressed: () {},
-                        ), 
-                        const BookRating(score: 4.9),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            )
-          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete,
+                                size: 20, color: Colors.red),
+                            onPressed: () {
+                              ConfirmationDialogService.openConfirmation(
+                                  context,
+                                  "Confirmation dialog",
+                                  "Are you sure you want to delete " +
+                                      book.title,
+                                  [
+                                    TextButton(
+                                      child: Text("Cancel"),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text("Delete",
+                                          style: const TextStyle(
+                                              color: Colors.red)),
+                                      onPressed: () async {
+                                        final DatabaseHandler _db =
+                                            DatabaseHandler();
+                                        await _db.deleteBook(book.id!);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) {
+                                              return const HomeScreen();
+                                            },
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  ]);
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              )),
           Expanded(
-            flex: 1,
-            child: Container(
-              color: Colors.transparent,
-              child: Image.asset(
-                "assets/images/book-1.png",
-                height: double.infinity,
-                alignment: Alignment.topRight,
-                fit: BoxFit.fitWidth,
-              ),
-          )),
+              flex: 1,
+              child: Container(
+                color: Colors.transparent,
+                child: Image.asset(
+                  "assets/images/book-1.png",
+                  height: double.infinity,
+                  alignment: Alignment.topRight,
+                  fit: BoxFit.fitWidth,
+                ),
+              )),
         ],
       ),
     );

@@ -1,4 +1,4 @@
-enum bookCoverSize {
+enum BookCoverSize {
   small,
   medium,
   large,
@@ -7,17 +7,17 @@ enum bookCoverSize {
 class BookCoverService {
   static const baseURl = "https://covers.openlibrary.org/b/isbn/";
 
-  static String getBookCoverPathByISBN(String isbn, bookCoverSize size) {
+  static String getBookCoverPathByISBN(String isbn, BookCoverSize size) {
     String pathParam = isbn;
 
     switch (size) {
-      case bookCoverSize.small:
+      case BookCoverSize.small:
         pathParam += "-S";
         break;
-      case bookCoverSize.medium:
+      case BookCoverSize.medium:
         pathParam += "-M";
         break;
-      case bookCoverSize.large:
+      case BookCoverSize.large:
         pathParam += "-L";
         break;
     }

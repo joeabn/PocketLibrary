@@ -7,6 +7,7 @@ import '../Database/book.dart';
 import '../constants.dart';
 import '../widgets/book_card.dart';
 import '../widgets/book_rating.dart';
+import '../widgets/drawer.dart';
 import '../widgets/two_side_rounded_button.dart';
 import 'details_screen.dart';
 
@@ -33,7 +34,7 @@ class _HomeScreen extends State<HomeScreen> {
 
     books.forEach((Book book) {
       var bookCard = BookCard(
-        image: "assets/images/book-1.png",
+        image: book.imagePath ?? "assets/images/book-1.png",
         title: book.title,
         author: book.author,
         rating: 4.9,
@@ -42,7 +43,7 @@ class _HomeScreen extends State<HomeScreen> {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return DetailsScreen();
+                return DetailsScreen(book: book);
               },
             ),
           );
@@ -64,11 +65,27 @@ class _HomeScreen extends State<HomeScreen> {
     return widgets;
   }
 
+  addColumn() async {
+    final DatabaseHandler _db = DatabaseHandler();
+    _db.addColumn();
+  }
+
   @override
   Widget build(BuildContext context) {
     fetchBooks();
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        // automaticallyImplyLeading: false,
+        backgroundColor: kRedColor,
+        elevation: 0,
+        /*    actions: [
+            IconButton(
+              onPressed: addColumn, icon: const Icon(Icons.add))]
+      */
+      ),
+      drawer: AppDrawer(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,7 +93,7 @@ class _HomeScreen extends State<HomeScreen> {
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                image: const DecorationImage(
+                image: DecorationImage(
                   image: AssetImage("assets/images/main_page_bg.png"),
                   alignment: Alignment.topCenter,
                   fit: BoxFit.fitWidth,
@@ -86,29 +103,31 @@ class _HomeScreen extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(height: size.height * .1),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: RichText(
-                      text: TextSpan(
-                        style: Theme.of(context).textTheme.headlineMedium,
-                        children: const [
-                          TextSpan(text: "What are you \nreading "),
-                          TextSpan(
-                              text: "today?",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ))
-                        ],
+                  if (books.length > 0)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.headlineMedium,
+                          children: const [
+                            TextSpan(text: "What are you \nreading "),
+                            TextSpan(
+                                text: "today?",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ))
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: getBookWidgets(),
+                  if (books.length > 0) const SizedBox(height: 30),
+                  if (books.length > 0)
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: getBookWidgets(),
+                      ),
                     ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Column(
@@ -168,9 +187,9 @@ class _HomeScreen extends State<HomeScreen> {
                                         Expanded(
                                           child: Column(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.end,
+                                            MainAxisAlignment.end,
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: const <Widget>[
                                               Text(
                                                 "Crushing & Influence",
@@ -186,7 +205,7 @@ class _HomeScreen extends State<HomeScreen> {
                                               ),
                                               Align(
                                                 alignment:
-                                                Alignment.bottomRight,
+                                                    Alignment.bottomRight,
                                                 child: Text(
                                                   "Chapter 7 of 10",
                                                   style: TextStyle(

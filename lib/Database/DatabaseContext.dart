@@ -9,9 +9,6 @@ import 'package:sqflite/sqflite.dart';
 import '../constants.dart';
 import 'book.dart';
 
-
-
-
 class DatabaseHandler {
   DatabaseHandler._();
 
@@ -98,6 +95,19 @@ class DatabaseHandler {
       // Pass the Dog's id as a whereArg to prevent SQL injection.
       whereArgs: [book.id],
     );
+  }
+
+  Future<void> updateCurrentBook(Book book) async {
+    // Get a reference to the database.
+    final db = await database;
+
+    var dict = {
+      'isCurrent': 0,
+    };
+
+    await db.update(KBooksDbTable, dict);
+
+    await updateBook(book);
   }
 
   Future<void> deleteBook(int id) async {

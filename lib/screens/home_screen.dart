@@ -21,12 +21,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   List<Book> books = [];
 
+  int i = 0;
+
   Future<void> fetchBooks() async {
     final DatabaseHandler _db = DatabaseHandler();
     var dbbooks = await _db.getBooks();
     setState(() {
       books = dbbooks;
     });
+    if (i == 0) {
+      books.forEach((Book book) {
+        print(book.title);
+        print(book.isCurrent);
+        print(book.bookmark);
+      });
+      i++;
+    }
   }
 
   List<Widget> getBookWidgets() {
@@ -187,9 +197,9 @@ class _HomeScreen extends State<HomeScreen> {
                                         Expanded(
                                           child: Column(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                                MainAxisAlignment.end,
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: const <Widget>[
                                               Text(
                                                 "Crushing & Influence",
@@ -259,8 +269,8 @@ class _HomeScreen extends State<HomeScreen> {
             ),
           );
         },
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.navigation),
+        backgroundColor: kRedColor,
+        child: const Icon(Icons.add),
       ),
     );
   }

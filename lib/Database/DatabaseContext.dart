@@ -35,7 +35,7 @@ class DatabaseHandler {
         await db.execute(
             'CREATE TABLE $KUsersDbTable(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,externalID TEXT)');
         await db.execute(
-          'CREATE TABLE $KBooksDbTable(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,author TEXT,genre TEXT,path TEXT, bookmark INTEGER)',
+          'CREATE TABLE $KBooksDbTable(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT,author TEXT,genre TEXT,path TEXT, bookmark INTEGER, isCurrent INTEGER, isbn TEXT, imagePath TEXT',
         );
       },
       version: 1,

@@ -28,6 +28,42 @@ class _HomeScreen extends State<HomeScreen> {
     });
   }
 
+  List<Widget> getBookWidgets() {
+    List<Widget> widgets = [];
+
+    books.forEach((Book book) {
+      var bookCard = BookCard(
+        image: "assets/images/book-1.png",
+        title: book.title,
+        author: book.author,
+        rating: 4.9,
+        pressDetails: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return DetailsScreen();
+              },
+            ),
+          );
+        },
+        pressRead: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return ReadingScreen(book: book);
+              },
+            ),
+          );
+        },
+      );
+
+      widgets = [...widgets, bookCard];
+    });
+    return widgets;
+  }
+
   @override
   Widget build(BuildContext context) {
     fetchBooks();
@@ -70,49 +106,7 @@ class _HomeScreen extends State<HomeScreen> {
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: Row(
-                      children: <Widget>[
-                        BookCard(
-                          image: "assets/images/book-1.png",
-                          title: "Crushing & Influence",
-                          author: "Gary Venchuk",
-                          rating: 4.9,
-                          pressDetails: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return DetailsScreen();
-                                },
-                              ),
-                            );
-                          },
-                          pressRead: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return ReadingScreen(
-                                      book: Book(
-                                          title: "Testing Book",
-                                          author: "Joe",
-                                          genre: "Tragedy",
-                                          bookmark: 3,
-                                          path:
-                                              "/data/user/0/Joe_abn.com.pocket_library/cache/file_picker/La Bourgogne CNE.pdf"));
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                        BookCard(
-                          image: "assets/images/book-2.png",
-                          title: "Top Ten Business Hacks",
-                          author: "Herman Joel",
-                          rating: 4.8,
-                          pressRead: () {},
-                        ),
-                        const SizedBox(width: 30),
-                      ],
+                      children: getBookWidgets(),
                     ),
                   ),
                   Padding(

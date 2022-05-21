@@ -1,11 +1,38 @@
 class Validator {
-  static String? validateName({required String? name}) {
+  static String? required({required String? name}) {
     if (name == null) {
       return null;
     }
 
     if (name.isEmpty) {
-      return 'Name can\'t be empty';
+      return 'This field can\'t be empty';
+    }
+
+    return null;
+  }
+
+  static String? validateISBN({required String? isbn}) {
+    const errorMessage = "Please enter a valid ISBN";
+    if (isbn == null || isbn.isEmpty) {
+      return null;
+    }
+
+    if (isbn.length != 10) {
+      return errorMessage;
+    }
+
+    try {
+      int.parse(isbn);
+    } catch (e) {
+      return errorMessage;
+    }
+    var sum = 0;
+    for (int i = 10; i != 0; i--) {
+      sum += (int.parse(isbn[i - 1]) * i);
+    }
+
+    if (sum % 11 != 0) {
+      return errorMessage;
     }
 
     return null;

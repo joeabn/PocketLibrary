@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pocket_library/screens/home_screen.dart';
 
-import '../../Utils/fire_auth.dart';
 import '../../Utils/validator.dart';
+import '../../services/fire_auth.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       TextFormField(
                         controller: _nameTextController,
                         focusNode: _focusName,
-                        validator: (value) => Validator.validateName(
+                        validator: (value) => Validator.required(
                           name: value,
                         ),
                         decoration: InputDecoration(

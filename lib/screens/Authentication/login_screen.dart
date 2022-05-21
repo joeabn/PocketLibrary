@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:pocket_library/screens/Authentication/register_screen.dart';
 import 'package:pocket_library/screens/home_screen.dart';
 
-import '../../Utils/fire_auth.dart';
 import '../../Utils/validator.dart';
+import '../../services/fire_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

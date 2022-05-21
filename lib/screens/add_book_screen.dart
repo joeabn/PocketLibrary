@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path/path.dart' as dartPath;
 import 'package:path_provider/path_provider.dart';
+import 'package:pocket_library/Utils/validator.dart';
 import 'package:pocket_library/screens/reading_screen.dart';
+import 'package:pocket_library/widgets/rounded_text_field.dart';
 
 import '../Database/DatabaseContext.dart';
 import '../Database/book.dart';
-import '../Utils/FireStorage.dart';
+import '../services/cloud_storage_service.dart';
 import '../widgets/rounded_button.dart';
 
 class AddBookScreen extends StatefulWidget {
@@ -95,7 +97,7 @@ class _AddBookState extends State<AddBookScreen> {
   Future<String> _uploadDocumentToCloud(Book book) async {
     var file = File(book.path);
 
-    var uploadTask = await FireStorage.uploadFile(file, book.title);
+    var uploadTask = await CloudStorageService.uploadFile(file, book.title);
     // uploadTask.whenComplete(() =>)
     // uploadTask.snapshot.ref
     return "";
@@ -160,7 +162,7 @@ class _uploadBookState extends State<AddBookScreen> {
       return null;
     }
     _fileName = fileName;
-    return await FireStorage.uploadFile(file, fileName);
+    return await CloudStorageService.uploadFile(file, fileName);
   }
 
   /// A new string is uploaded to storage.
@@ -376,6 +378,7 @@ class UploadTaskListTile extends StatelessWidget {
 
 class BookForm extends StatelessWidget {
   final Future<void> Function(String, String?, String?) submitForm;
+  final _formKey = GlobalKey<FormState>();
 
   final _focusTitle = FocusNode();
   final _focusAuthor = FocusNode();
@@ -393,49 +396,48 @@ class BookForm extends StatelessWidget {
         body: Container(
             child: Padding(
                 padding: EdgeInsets.all(8.0),
-                child:
-                    Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                  const SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: _titleTextController,
-                    focusNode: _focusTitle,
-                    decoration: const InputDecoration(
-                      hintText: "Title",
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: _authorTextController,
-                    focusNode: _focusAuthor,
-                    decoration: const InputDecoration(
-                      hintText: "Author",
-                    ),
-                  ),
-                  const SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: _genreTextController,
-                    focusNode: _focusGenre,
-                    decoration: const InputDecoration(
-                      hintText: "Genre",
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
-                  ElevatedButton(
-                    onPressed: () async {
-                      _focusTitle.unfocus();
-                      _focusAuthor.unfocus();
-                      _focusGenre.unfocus();
-                      await submitForm(
-                          _titleTextController.text,
-                          _authorTextController.text,
-                          _genreTextController.text);
-                    },
-                    child: const Text(
-                      'Save Book',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ]))));
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          const SizedBox(height: 15.0),
+                          RoundedTextField(
+                              textHint: "Title",
+                              editingController: _titleTextController,
+                              focusNode: _focusTitle),
+                          const SizedBox(height: 15.0),
+                          RoundedTextField(
+                              textHint: "Author",
+                              editingController: _authorTextController,
+                              focusNode: _focusAuthor),
+                          // const SizedBox(height: 15.0),
+                          // RoundedTextField(textHint: "Genre",
+                          //     editingController: _genreTextController,
+                          //     focusNode: _focusGenre),
+                          const SizedBox(height: 15.0),
+                          RoundedTextField(
+                            textHint: "ISBN",
+                            editingController: _genreTextController,
+                            focusNode: _focusGenre,
+                            validator: (value) =>
+                                Validator.validateISBN(isbn: value),
+                          ),
+                          const SizedBox(height: 20.0),
+                          RoundedButton(
+                              text: "Save Book",
+                              press: () async {
+                                _focusTitle.unfocus();
+                                _focusAuthor.unfocus();
+                                _focusGenre.unfocus();
+                                print(_formKey.currentState!.validate());
+                                // await submitForm(
+                                //     _titleTextController.text,
+                                //     _authorTextController.text,
+                                //     _genreTextController.text
+                                // );
+                              })
+                        ])))));
     /*GestureDetector(
           onTap: () {
             _focusTitle.unfocus();

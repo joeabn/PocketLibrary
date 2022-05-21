@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreen extends State<HomeScreen> {
-  List<Book> books = [new Book(title: "title", path: "path")];
+  List<Book> books = [];
 
   Future<void> fetchBooks() async {
     final DatabaseHandler _db = DatabaseHandler();

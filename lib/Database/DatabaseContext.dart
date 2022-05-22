@@ -82,6 +82,17 @@ class DatabaseHandler {
     return Book.fromMap(maps.first);
   }
 
+  Future<Book?> getCurrentBook() async {
+    // Get a reference to the database.
+    final db = await database;
+
+    // Query the table for all The Books.
+    final List<Map<String, dynamic>> maps =
+        await db.query(KBooksDbTable, where: 'isCurrent = 1');
+
+    return Book.fromMap(maps.first);
+  }
+
   Future<void> updateBook(Book book) async {
     // Get a reference to the database.
     final db = await database;

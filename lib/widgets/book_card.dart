@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pocket_library/widgets/network_book_image.dart';
 import 'package:pocket_library/widgets/two_side_rounded_button.dart';
 
 import '../constants.dart';
@@ -49,11 +50,7 @@ class BookCard extends StatelessWidget {
               ),
             ),
           ),
-          Image.network(
-            image,
-            width: 150,
-            height: 150,
-          ),
+          NetworkBookImage(imagePath: image),
           Positioned(
             top: 35,
             right: 10,

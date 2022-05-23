@@ -3,6 +3,7 @@ import 'package:pocket_library/Database/book.dart';
 import 'package:pocket_library/screens/reading_screen.dart';
 
 import '../constants.dart';
+import 'network_book_image.dart';
 
 class ContinueReadingCard extends StatelessWidget {
   final Book book;
@@ -67,23 +68,22 @@ class ContinueReadingCard extends StatelessWidget {
                                 ),
                               Align(
                                 alignment: Alignment.bottomRight,
-                                child: Text(
-                                  "Chapter 7 of 10",
-                                  style: TextStyle(
-                                    fontSize: 10,
-                                    color: kLightBlackColor,
-                                  ),
-                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.only(right: 15),
+                                    child: Text(
+                                      "Chapter 7 of 10",
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                        color: kLightBlackColor,
+                                      ),
+                                    )),
                               ),
                               SizedBox(height: 5),
                             ],
                           ),
                         ),
-                        if (book.imagePath != null)
-                          Image.network(
-                            book.imagePath!,
-                            width: 55,
-                          )
+                        NetworkBookImage(
+                            imagePath: book.imagePath, width: 55, height: 90),
                       ],
                     ),
                   ),

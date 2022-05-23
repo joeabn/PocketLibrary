@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../Database/DatabaseContext.dart';
 import '../Database/book.dart';
+import '../widgets/network_book_image.dart';
 import 'details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _SearchScreen extends State<SearchScreen> {
                     //get your item data here ...
                     return Card(
                       child: ListTile(
-                        leading: Image.network(item.imagePath),
+                        leading: NetworkBookImage(imagePath: item.imagePath),
                         title: Text(item.title),
                         onTap: () {
                           Navigator.push(

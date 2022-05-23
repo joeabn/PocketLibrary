@@ -24,7 +24,6 @@ class _HomeScreen extends State<HomeScreen> {
   Book? currentBook;
   final DatabaseHandler _db = DatabaseHandler();
 
-
   Future<void> fetchBooks() async {
     var dbbooks = await _db.getBooks();
     setState(() {
@@ -33,8 +32,10 @@ class _HomeScreen extends State<HomeScreen> {
   }
 
   Future<void> fetchCurrentBook() async {
-    print("getting current book");
-    currentBook = await _db.getCurrentBook();
+    var currBook = await _db.getCurrentBook();
+    setState(() {
+      currentBook = currBook;
+    });
   }
 
   List<Widget> getBookWidgets() {

@@ -38,8 +38,6 @@ class _ReadingState extends State<ReadingScreen> {
 
   @override
   void initState() {
-    print(widget.book.toMap());
-
     _book = widget.book;
     _book.isCurrent = true;
     _pdfViewerController = PdfViewerController();
@@ -75,14 +73,12 @@ class _ReadingState extends State<ReadingScreen> {
 
   Future<void> saveCurrentBookRead() async {
     final DatabaseHandler _db = DatabaseHandler();
-    print(_book.toMap());
     await _db.updateCurrentBook(_book);
   }
 
   @override
   void dispose() {
     saveCurrentBookRead();
-    print(_book.toMap());
     super.dispose();
   }
 

@@ -90,6 +90,11 @@ class DatabaseHandler {
     final List<Map<String, dynamic>> maps =
         await db.query(KBooksDbTable, where: 'isCurrent = 1');
 
+    // print('Current Books');
+    //
+    // maps.forEach((Map<String, dynamic> map) {
+    //   print(map);
+    // });
     return Book.fromMap(maps.first);
   }
 
@@ -116,8 +121,7 @@ class DatabaseHandler {
       'isCurrent': 0,
     };
 
-    await db.update(KBooksDbTable, dict);
-
+    await db.update(KBooksDbTable, dict, where: 'true');
     await updateBook(book);
   }
 

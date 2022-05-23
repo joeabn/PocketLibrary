@@ -23,7 +23,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       _currentUser = loggedInUser;
     });
-    print("Looking for user");
   }
 
   @override

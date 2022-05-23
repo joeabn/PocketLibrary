@@ -24,30 +24,16 @@ class _HomeScreen extends State<HomeScreen> {
   Book? currentBook;
   final DatabaseHandler _db = DatabaseHandler();
 
-  int i = 0;
-
-  @override
-  void initState() {
-    fetchBooks();
-    fetchCurrentBook();
-  }
 
   Future<void> fetchBooks() async {
     var dbbooks = await _db.getBooks();
     setState(() {
       books = dbbooks;
     });
-    if (i == 0) {
-      books.forEach((Book book) {
-        print(book.title);
-        print(book.isCurrent);
-        print(book.bookmark);
-      });
-      i++;
-    }
   }
 
   Future<void> fetchCurrentBook() async {
+    print("getting current book");
     currentBook = await _db.getCurrentBook();
   }
 
@@ -94,6 +80,8 @@ class _HomeScreen extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    fetchBooks();
+    fetchCurrentBook();
     var size = MediaQuery.of(context).size;
     return Scaffold(
       extendBodyBehindAppBar: true,

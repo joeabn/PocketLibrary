@@ -28,6 +28,12 @@ class _uploadBookState extends State<AddBookScreen> {
 
   String _filePath = "";
 
+  @override
+  void initState() {
+    handleUploadPressed();
+    super.initState();
+  }
+
   /// The user selects a file, and the task is added to the list.
   Future<UploadTask?> uploadFile(File? file, String fileName) async {
     if (file == null) {
@@ -71,6 +77,16 @@ class _uploadBookState extends State<AddBookScreen> {
             allowedExtensions: ['pdf']))
         ?.files
         .first;
+    if (filePickerResult == null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return HomeScreen();
+          },
+        ),
+      );
+    }
 
     var newFile = File(filePickerResult?.path ?? "");
     UploadTask? task = await uploadFile(newFile, filePickerResult?.name ?? "");

@@ -156,19 +156,19 @@ class _HomeScreen extends State<HomeScreen> {
                           ),
                         ),
                         wideBookCard(size, context),
-                        RichText(
-                          text: TextSpan(
-                            style: Theme.of(context).textTheme.headlineMedium,
-                            children: const [
-                              TextSpan(text: "Continue "),
-                              TextSpan(
-                                text: "reading...",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
                         if (currentBook != null) ...[
+                          RichText(
+                            text: TextSpan(
+                              style: Theme.of(context).textTheme.headlineMedium,
+                              children: const [
+                                TextSpan(text: "Continue "),
+                                TextSpan(
+                                  text: "reading...",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
                           const SizedBox(height: 20),
                           ContinueReadingCard(book: currentBook!)
                         ],

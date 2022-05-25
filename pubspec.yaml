@@ -46,6 +46,8 @@ dependencies:
 
   permission_handler:
   checkdigit: ^0.3.1
+  syncfusion_flutter_pdf: ^20.1.56-beta
+  cached_network_image: ^3.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

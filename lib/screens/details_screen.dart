@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pocket_library/Database/book.dart';
 import 'package:pocket_library/screens/home_screen.dart';
+import 'package:pocket_library/screens/reading_screen.dart';
 
 import '../Database/DatabaseContext.dart';
 import '../constants.dart';
@@ -125,7 +126,7 @@ class DetailsScreen extends StatelessWidget {
                                   children: [
                                     TextSpan(
                                       text:
-                                      "How To Win \nFriends & Influence \n",
+                                          "How To Win \nFriends & Influence \n",
                                       style: TextStyle(
                                         fontSize: 15,
                                       ),
@@ -298,8 +299,11 @@ class BookInfo extends StatelessWidget {
                             width: this.size.width * .3,
                             padding:
                                 EdgeInsets.only(top: this.size.height * .02),
-                            child: const Text(
-                              "When the earth was flat andeveryone wanted to win the gameof the best and people and winning with an A game with all the things you have.",
+                            child: Text(
+                              "Author : " +
+                                  (book.author ?? "") +
+                                  "\nGenre: " +
+                                  (book.genre ?? ""),
                               maxLines: 5,
                               style: TextStyle(
                                 fontSize: 10,
@@ -316,7 +320,16 @@ class BookInfo extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: FlatButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return ReadingScreen(book: book);
+                                    },
+                                  ),
+                                );
+                              },
                               child: const Text(
                                 "Read",
                                 style: TextStyle(fontWeight: FontWeight.bold),

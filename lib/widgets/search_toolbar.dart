@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
+import '../constants.dart';
+
 typedef SearchTapCallback = void Function(Object item);
 
 class SearchToolbar extends StatefulWidget {
@@ -124,7 +126,11 @@ class SearchToolbarState extends State<SearchToolbar> {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Material(
+        Container(
+          margin: EdgeInsets.only(left: 20),
+          width: 20,
+        ),
+        /*Material(
           color: Colors.transparent,
           child: IconButton(
             icon: Icon(
@@ -138,11 +144,10 @@ class SearchToolbarState extends State<SearchToolbar> {
               _pdfTextSearchResult.clear();
             },
           ),
-        ),
+        ),*/
         Flexible(
           child: TextFormField(
-            style: TextStyle(
-                color: const Color(0x00000000).withOpacity(0.87), fontSize: 16),
+            style: const TextStyle(color: kLightColor, fontSize: 16),
             enableInteractiveSelection: false,
             focusNode: focusNode,
             keyboardType: TextInputType.text,
@@ -151,7 +156,8 @@ class SearchToolbarState extends State<SearchToolbar> {
             decoration: InputDecoration(
               border: InputBorder.none,
               hintText: 'Find...',
-              hintStyle: TextStyle(color: const Color(0x00000000).withOpacity(0.34)),
+              hintStyle:
+                  TextStyle(color: const Color(0x00000000).withOpacity(0.34)),
             ),
             onChanged: (text) {
               if (_searchTextLength < _editingController.value.text.length) {
@@ -166,7 +172,7 @@ class SearchToolbarState extends State<SearchToolbar> {
             },
             onFieldSubmitted: (String value) async {
               _pdfTextSearchResult =
-              await widget.controller!.searchText(_editingController.text);
+                  await widget.controller!.searchText(_editingController.text);
               if (_pdfTextSearchResult.totalInstanceCount == 0) {
                 widget.onTap?.call('noResultFound');
               } else {
@@ -208,19 +214,22 @@ class SearchToolbarState extends State<SearchToolbar> {
               Text(
                 '${_pdfTextSearchResult.currentInstanceIndex}',
                 style: TextStyle(
-                    color: const Color.fromRGBO(0, 0, 0, 0.54).withOpacity(0.87),
+                    color:
+                        const Color.fromRGBO(0, 0, 0, 0.54).withOpacity(0.87),
                     fontSize: 16),
               ),
               Text(
                 ' of ',
                 style: TextStyle(
-                    color: const Color.fromRGBO(0, 0, 0, 0.54).withOpacity(0.87),
+                    color:
+                        const Color.fromRGBO(0, 0, 0, 0.54).withOpacity(0.87),
                     fontSize: 16),
               ),
               Text(
                 '${_pdfTextSearchResult.totalInstanceCount}',
                 style: TextStyle(
-                    color: const Color.fromRGBO(0, 0, 0, 0.54).withOpacity(0.87),
+                    color:
+                        const Color.fromRGBO(0, 0, 0, 0.54).withOpacity(0.87),
                     fontSize: 16),
               ),
               Material(
@@ -251,7 +260,7 @@ class SearchToolbarState extends State<SearchToolbar> {
                   onPressed: () {
                     setState(() {
                       if (_pdfTextSearchResult.currentInstanceIndex ==
-                          _pdfTextSearchResult.totalInstanceCount &&
+                              _pdfTextSearchResult.totalInstanceCount &&
                           _pdfTextSearchResult.currentInstanceIndex != 0 &&
                           _pdfTextSearchResult.totalInstanceCount != 0) {
                         _showSearchAlertDialog(context);
